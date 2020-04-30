@@ -17,6 +17,11 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -60,5 +65,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     // Okhttp
     implementation("com.squareup.okhttp3:okhttp:4.5.0")
-
+    // View model scope
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0-alpha02'
+    // Live data scope
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-alpha02'
 }

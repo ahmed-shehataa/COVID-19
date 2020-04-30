@@ -1,9 +1,12 @@
+package com.ashehata.covid_19.models
+
+import com.google.gson.annotations.SerializedName
 
 data class Global (
-	val newConfirmed : Int,
-	val totalConfirmed : Int,
-	val newDeaths : Int,
-	val totalDeaths : Int,
-	val newRecovered : Int,
-	val totalRecovered : Int
+	@SerializedName("NewConfirmed") val newConfirmed : Int,
+	@SerializedName("TotalConfirmed") val totalConfirmed : Int,
+	@SerializedName("NewDeaths") val newDeaths : Int,
+	@SerializedName("TotalDeaths") val totalDeaths : Int,
+	@SerializedName("NewRecovered") val newRecovered : Int,
+	@SerializedName("TotalRecovered") val totalRecovered : Int
 )

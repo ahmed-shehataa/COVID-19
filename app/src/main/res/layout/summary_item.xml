@@ -1,6 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?selectableItemBackground"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="12dp"/>
+
+    <TextView
+        android:layout_marginStart="12dp"
+        android:id="@+id/tv_country_code"
+        android:gravity="center"
+        android:textSize="22sp"
+        android:textColor="@color/colorWhite"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/circle_shap"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="HI"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        app:layout_constraintStart_toEndOf="@id/tv_country_code"
+        android:id="@+id/guide_start"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="100dp"/>
+
+
+    <TextView
+        android:textColor="@color/colorBlack"
+        android:textSize="16sp"
+        android:id="@+id/tv_country_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/guide_top"
+        app:layout_constraintStart_toEndOf="@id/guide_start"
+        app:layout_constraintEnd_toStartOf="@id/guide_end"
+        tools:text="EGYPT"/>
+
+    <TextView
+        android:textSize="16sp"
+        android:id="@+id/tv_total_confirmed_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/tv_country_name"
+        app:layout_constraintStart_toEndOf="@id/guide_start"
+        android:text="@string/total_confirmed"/>
+
+    <TextView
+        android:textColor="@color/colorBlue"
+        android:layout_marginStart="8dp"
+        android:id="@+id/tv_total_confirmed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/tv_country_name"
+        app:layout_constraintStart_toEndOf="@id/tv_total_confirmed_title"
+        tools:text="1582205"/>
+
+    <TextView
+        android:textColor="@color/colorBlue"
+        android:id="@+id/tv_new_confirmed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/tv_total_confirmed_title"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        tools:text="+ 2503"/>
+
+    <TextView
+        android:textSize="16sp"
+        android:id="@+id/tv_total_deaths_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_total_confirmed_title"
+        app:layout_constraintStart_toEndOf="@id/guide_start"
+        android:text="@string/total_deaths"/>
+
+    <TextView
+        android:textColor="@color/colorRed"
+        android:layout_marginStart="8dp"
+        android:id="@+id/tv_total_deaths"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/tv_total_deaths_title"
+        app:layout_constraintStart_toEndOf="@id/tv_total_deaths_title"
+        tools:text="850"/>
+
+    <TextView
+        android:textColor="@color/colorRed"
+        android:id="@+id/tv_new_deaths"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/tv_total_deaths_title"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        tools:text="+ 25"/>
+
+    <TextView
+        android:textSize="16sp"
+        android:id="@+id/tv_total_recovered_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_total_deaths_title"
+        app:layout_constraintStart_toEndOf="@id/guide_start"
+        android:text="@string/total_recovered"/>
+
+    <TextView
+        android:textColor="@color/colorGreen"
+        android:layout_marginStart="8dp"
+        android:id="@+id/tv_total_recovered"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/tv_total_recovered_title"
+        app:layout_constraintStart_toEndOf="@id/tv_total_recovered_title"
+        tools:text="5855"/>
+
+    <TextView
+        android:textColor="@color/colorGreen"
+        android:id="@+id/tv_new_recovered"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/tv_total_recovered_title"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        tools:text="+ 25"/>
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_end"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="12dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

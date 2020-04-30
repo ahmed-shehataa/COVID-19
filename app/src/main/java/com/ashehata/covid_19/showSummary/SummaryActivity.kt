@@ -28,19 +28,17 @@ class SummaryActivity : AppCompatActivity() {
 
             pb_refresh.isRefreshing = it.refresh
 
-            if (it.error != null) Toast.makeText(this, "Check internet connection", Toast.LENGTH_SHORT).show()
+            if (it.error != null) Toast.makeText(this, getString(R.string.message_error), Toast.LENGTH_SHORT).show()
 
             //if (it.empty) Toast.makeText(this, "Empty data", Toast.LENGTH_SHORT).show()
 
             if (it.countries != null) {
-                Toast.makeText(this, it.countries?.size.toString(), Toast.LENGTH_SHORT).show()
                 // Display the data
                 mAdapter = SummaryAdapter(it.countries!!)
                 rv_summary.adapter = mAdapter
                 mAdapter?.notifyDataSetChanged()
 
             }
-
         })
     }
 }

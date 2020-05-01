@@ -1,5 +1,6 @@
 package com.ashehata.covid_19.showSummary
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -31,50 +32,31 @@ class SummaryViewModel(private val useCase: SummaryUseCase) : ViewModel() {
     }
 
     private fun loadSummary() {
-        // Update view state
-        //_viewState.value = useCase.getSummary()
-
         /*
         https://medium.com/@cesarmcferreira/how-to-use-the-new-android-viewmodelscope-in-clean-architecture-2a33aac959ee
          */
+        getSummary()
+    }
+    fun setRefreshing() {
+        if (getCurrentViewState()!!.loading || !getCurrentViewState()!!.empty ) {
+            _viewState.value = getCurrentViewState()?.copy(empty = false, refresh = false)
+            return
+        }
 
-        mJob = viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val result = useCase.getSummary()
+        _viewState.value = getCurrentViewState()?.copy(empty = false, refresh = true, error = null)
+        getSummary()
+    }
 
-                withContext(Dispatchers.Main) {
-                    if (result.countries.isNotEmpty()) {
-                        _viewState.value = getCurrentViewState()?.copy(
-                            countries = result.countries,
-                            global = result.global,
-                            error = null,
-                            loading = false,
-                            empty = false
-                        )
-                    } else {
-                        _viewState.value = getCurrentViewState()?.copy(
-                            error = null,
-                            loading = false,
-                            empty = true
-                        )
-                    }
-                }
-            } catch (e: Exception) {
-               withContext(Dispatchers.Main) {
-                   delay(800)
-                   _viewState.value = getCurrentViewState()?.copy(
-                       error = e,
-                       loading = false,
-                       empty = true
-                   )
-               }
-            }
+    private fun getSummary() {
+        mJob = useCase.getSummary(viewModelScope, getCurrentViewState()){
+            _viewState.value = it
         }
 
     }
 
     override fun onCleared() {
         super.onCleared()
+        Log.v("viewModelDestroyed", "true")
         if (!mJob.isCancelled) {
             mJob.cancel()
         }

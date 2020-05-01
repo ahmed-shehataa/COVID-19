@@ -11,5 +11,6 @@ data class SummaryViewState(
     var loading: Boolean = false,
     var refresh: Boolean = false,
     var empty: Boolean = false,
+    var lastUpdate: String = "",
     var sortType: String = ""
 )

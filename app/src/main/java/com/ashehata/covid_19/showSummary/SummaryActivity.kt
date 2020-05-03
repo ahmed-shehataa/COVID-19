@@ -3,17 +3,19 @@ package com.ashehata.covid_19.showSummary
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import android.view.View
+import android.widget.SearchView;
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.ashehata.covid_19.R
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
-import org.koin.android.ext.android.inject
+import kotlinx.coroutines.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SummaryActivity : AppCompatActivity() {
+class SummaryActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     private val viewModel: SummaryViewModel by viewModel()
     private var mAdapter: SummaryAdapter? = null
@@ -46,20 +48,43 @@ class SummaryActivity : AppCompatActivity() {
             if (it.lastUpdate.isNotEmpty()) {
                 Snackbar.make(parent_view, "Last update: ${it.lastUpdate}",
                     BaseTransientBottomBar.LENGTH_LONG).show()
-
             }
 
-            if (it.error != null) Toast.makeText(this, getString(R.string.message_error), Toast.LENGTH_SHORT).show()
+//            getString(R.string.message_error)
+            if (it.errorMessage != null) Toast.makeText(this, it.errorMessage, Toast.LENGTH_SHORT).show()
 
             //if (it.empty) Toast.makeText(this, "Empty data", Toast.LENGTH_SHORT).show()
 
             if (it.countries != null) {
                 // Display the data
-                mAdapter = SummaryAdapter(it.countries!!)
+               if (mAdapter == null) mAdapter = SummaryAdapter(it.countries!!)
                 rv_summary.adapter = mAdapter
-                mAdapter?.notifyDataSetChanged()
-
             }
+
+            if (it.searchCountryPosition != null) {
+                rv_summary.smoothScrollToPosition(it.searchCountryPosition!!)
+            }
+
         })
     }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        viewModel.setSearch(query?.trim())
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        return true
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        // Inflate the search view
+        menuInflater.inflate(R.menu.search_view, menu)
+        // Get inflated item
+        val searchItem = menu?.findItem(R.id.sv_search)
+        val searchView = searchItem?.actionView as SearchView
+        searchView.setOnQueryTextListener(this)
+        return super.onCreateOptionsMenu(menu)
+    }
+
 }

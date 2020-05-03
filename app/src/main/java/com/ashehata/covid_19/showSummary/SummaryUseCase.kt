@@ -1,7 +1,6 @@
 package com.ashehata.covid_19.showSummary
 
 import android.util.Log
-import com.ashehata.covid_19.models.SummaryResponse
 import kotlinx.coroutines.*
 import java.lang.Exception
 
@@ -25,14 +24,14 @@ class SummaryUseCase(private val repositoryImpl: SummaryRepositoryImpl) {
                     countries = sortedCountries,
                     global = result.global,
                     lastUpdate = sortedCountries.get(0).date,
-                    error = null,
+                    errorMessage = null,
                     loading = false,
                     empty = false,
                     refresh = false
                 ))
                 } else {
                 updateViewState(viewState?.copy(
-                    error = null,
+                    errorMessage = null,
                     loading = false,
                     empty = true,
                     lastUpdate = "Try again",
@@ -44,7 +43,7 @@ class SummaryUseCase(private val repositoryImpl: SummaryRepositoryImpl) {
                 delay(800)
                 Log.v("mError", e.message!!)
                  updateViewState(viewState?.copy(
-                     error = e,
+                     errorMessage = e.localizedMessage,
                      loading = false,
                      lastUpdate = "Try again",
                      empty = true,

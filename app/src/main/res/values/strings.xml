@@ -4,4 +4,6 @@
     <string name="total_deaths">Total Deaths:</string>
     <string name="total_recovered">Total Recovered:</string>
     <string name="message_error">An error  occurred</string>
+    <string name="search">Search</string>
+    <string name="search_hint">Enter county name</string>
 </resources>

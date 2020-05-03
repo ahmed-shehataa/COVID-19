@@ -7,10 +7,11 @@ data class SummaryViewState(
     //var summary: SummaryResponse,
     var global: Global? = null,
     var countries: List<Countries>? = null,
-    var error: Throwable? = null,
+    var errorMessage: String? = null,
     var loading: Boolean = false,
     var refresh: Boolean = false,
     var empty: Boolean = false,
     var lastUpdate: String = "",
-    var sortType: String = ""
+    var sortType: String = "",
+    var searchCountryPosition: Int? = null
 )

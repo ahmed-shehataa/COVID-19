@@ -13,6 +13,6 @@ class SummaryRepositoryImpl(private val cash: CoroutinesCache,
                             private val remoteData: RemoteData) : SummaryRepository {
 
     override suspend fun getSummary(): SummaryResponse {
-        return cash.asyncCache({remoteData.getSummery()}, CACHE_KEY, CachePolicy.TimeCache(CACHE_TIME, TimeUnit.MINUTES)).await()
+        return cash.asyncCache({remoteData.getSummery()}, CACHE_KEY, CachePolicy.TimeCache(CACHE_TIME, TimeUnit.HOURS)).await()
     }
 }

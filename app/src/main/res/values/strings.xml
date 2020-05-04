@@ -6,4 +6,7 @@
     <string name="message_error">An error  occurred</string>
     <string name="search">Search</string>
     <string name="search_hint">Enter county name</string>
+    <string name="message_empty_field">empty field</string>
+    <string name="message_try_again">Try again</string>
+    <string name="message_no_country">No country found</string>
 </resources>

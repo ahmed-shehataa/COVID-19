@@ -5,5 +5,5 @@ import kotlinx.coroutines.Deferred
 
 interface SummaryRepository {
 
-    suspend fun getSummary(): SummaryResponse
+    fun getSummary(): Deferred<SummaryResponse>?
 }

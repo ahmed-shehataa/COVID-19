@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ashehata.covid_19.models.Countries
+import com.ashehata.covid_19.externals.ErrorType
 import kotlinx.coroutines.*
 import java.util.*
 
@@ -23,7 +23,7 @@ class SummaryViewModel(private val useCase: SummaryUseCase) : ViewModel() {
         _viewState.value = SummaryViewState(
             null,
             null,
-            null,
+            ErrorType.NoError,
             true,
             false,
             true,
@@ -39,29 +39,30 @@ class SummaryViewModel(private val useCase: SummaryUseCase) : ViewModel() {
         getSummary()
     }
     fun setRefreshing() {
-        if (getCurrentViewState()!!.loading || !getCurrentViewState()!!.empty ) {
+
+        if (getCurrentViewState()!!.loading ) {
             _viewState.value = getCurrentViewState()?.copy(empty = false,
                 refresh = false,
-                errorMessage = null,
+                errorType = ErrorType.NoError,
                 searchCountryPosition = null)
             return
         }
 
         _viewState.value = getCurrentViewState()?.copy(empty = false,
             refresh = true,
-            errorMessage = null,
+            errorType = ErrorType.NoError,
             searchCountryPosition = null)
         getSummary()
     }
 
     fun setSearch(text: String?) {
         if (text.isNullOrEmpty()) {
-            _viewState.value = getCurrentViewState()?.copy(searchCountryPosition = null, errorMessage = "Empty Field")
+            _viewState.value = getCurrentViewState()?.copy(searchCountryPosition = null, errorType = ErrorType.EmptyField)
             return
         }
 
         if (getCurrentViewState()?.countries.isNullOrEmpty()) {
-            _viewState.value = getCurrentViewState()?.copy(searchCountryPosition = null, errorMessage = "Try again")
+            _viewState.value = getCurrentViewState()?.copy(searchCountryPosition = null, errorType = ErrorType.TryAgain)
             return
         }
 
@@ -72,10 +73,10 @@ class SummaryViewModel(private val useCase: SummaryUseCase) : ViewModel() {
 
         if (searchedItem != null) {
             val position = getCurrentViewState()?.copy()?.countries?.indexOf(searchedItem)
-            _viewState.value = getCurrentViewState()?.copy(searchCountryPosition = position, errorMessage = null)
+            _viewState.value = getCurrentViewState()?.copy(searchCountryPosition = position, errorType = ErrorType.NoError)
 
         } else {
-            _viewState.value = getCurrentViewState()?.copy(searchCountryPosition = null, errorMessage = "Country not found")
+            _viewState.value = getCurrentViewState()?.copy(searchCountryPosition = null, errorType = ErrorType.NoCountry)
         }
 
     }
@@ -84,7 +85,6 @@ class SummaryViewModel(private val useCase: SummaryUseCase) : ViewModel() {
         mJob = useCase.getSummary(viewModelScope, getCurrentViewState()){
             _viewState.value = it
         }
-
     }
 
     override fun onCleared() {

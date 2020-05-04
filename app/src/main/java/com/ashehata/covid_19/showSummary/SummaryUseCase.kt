@@ -1,6 +1,8 @@
 package com.ashehata.covid_19.showSummary
 
 import android.util.Log
+import com.ashehata.covid_19.externals.ErrorType
+import com.ashehata.covid_19.models.SummaryResponse
 import kotlinx.coroutines.*
 import java.lang.Exception
 
@@ -9,47 +11,56 @@ class SummaryUseCase(private val repositoryImpl: SummaryRepositoryImpl) {
 
     fun getSummary(viewModelScope: CoroutineScope, viewState: SummaryViewState?, updateViewState: (SummaryViewState?) -> Unit): Job{
 
-         return viewModelScope.launch {
-            try {
-                // Get data
-                val result = withContext(Dispatchers.IO) {
-                    repositoryImpl.getSummary()
-                }
+        return viewModelScope.launch(Dispatchers.Main) {
+             Log.v("parentJob", isActive.toString())
+             // Get data
+             val result=
+                 try {
+                     Log.v("childJob", isActive.toString())
+                     repositoryImpl.getSummary()?.await()
+                 } catch (e: Exception) {
+                     Log.v("mError", e.message!!)
+                     null
+                 }
 
-                if (result.countries.isNotEmpty()) {
-                    val sortedCountries = result.countries.sortedByDescending {
-                    it.totalConfirmed
-                }
-                updateViewState(viewState?.copy(
-                    countries = sortedCountries,
-                    global = result.global,
-                    lastUpdate = sortedCountries.get(0).date,
-                    errorMessage = null,
-                    loading = false,
-                    empty = false,
-                    refresh = false
-                ))
-                } else {
-                updateViewState(viewState?.copy(
-                    errorMessage = null,
-                    loading = false,
-                    empty = true,
-                    lastUpdate = "Try again",
-                    refresh = false
-                ))
-                }
-
-            } catch (e: Exception) {
-                delay(800)
-                Log.v("mError", e.message!!)
+             if (result != null) {
+                 if (result.countries.isNotEmpty()) {
+                     val sortedCountries = result.countries.sortedByDescending {
+                         it.totalConfirmed
+                     }
+                     updateViewState(
+                         viewState?.copy(
+                             countries = sortedCountries,
+                             global = result.global,
+                             lastUpdate = sortedCountries.get(0).date,
+                             errorType = ErrorType.NoError,
+                             loading = false,
+                             empty = false,
+                             refresh = false
+                         )
+                     )
+                 } else {
+                     updateViewState(
+                         viewState?.copy(
+                             errorType = ErrorType.NoError,
+                             loading = false,
+                             empty = true,
+                             lastUpdate = "",
+                             refresh = false
+                         )
+                     )
+                 }
+             } else {
+                 delay(800)
+//                 Log.v("mError", e.message!!)
                  updateViewState(viewState?.copy(
-                     errorMessage = e.localizedMessage,
+                     errorType = ErrorType.NoConnection,
                      loading = false,
-                     lastUpdate = "Try again",
+                     lastUpdate = "",
                      empty = true,
                      refresh = false
-                ))
-            }
+                 ))
+             }
         }
     }
 }

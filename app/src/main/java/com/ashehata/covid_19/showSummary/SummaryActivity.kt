@@ -9,10 +9,10 @@ import android.widget.SearchView;
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.ashehata.covid_19.R
+import com.ashehata.covid_19.externals.ErrorType
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SummaryActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
@@ -44,16 +44,22 @@ class SummaryActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
             pb_refresh.isRefreshing = it.refresh
 
-            //tv_lastUpdate.text = it.lastUpdate
             if (it.lastUpdate.isNotEmpty()) {
                 Snackbar.make(parent_view, "Last update: ${it.lastUpdate}",
                     BaseTransientBottomBar.LENGTH_LONG).show()
             }
 
-//            getString(R.string.message_error)
-            if (it.errorMessage != null) Toast.makeText(this, it.errorMessage, Toast.LENGTH_SHORT).show()
+            val message = when (it.errorType) {
+                ErrorType.EmptyField -> getString(R.string.message_empty_field)
+                ErrorType.TryAgain -> getString(R.string.message_try_again)
+                ErrorType.NoConnection -> getString(R.string.message_error)
+                ErrorType.NoCountry -> getString(R.string.message_no_country)
+                ErrorType.NoError -> ""
+            }
 
-            //if (it.empty) Toast.makeText(this, "Empty data", Toast.LENGTH_SHORT).show()
+            if (message.isNotEmpty()) {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+            }
 
             if (it.countries != null) {
                 // Display the data
@@ -69,7 +75,7 @@ class SummaryActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-        viewModel.setSearch(query?.trim())
+        viewModel.setSearch(query?.trim()?.toLowerCase())
         return true
     }
 

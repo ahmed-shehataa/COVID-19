@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.recyclerview.widget.RecyclerView
 import com.ashehata.covid_19.externals.ErrorType
 import kotlinx.coroutines.*
 import java.util.*
@@ -27,7 +28,8 @@ class SummaryViewModel(private val useCase: SummaryUseCase) : ViewModel() {
             true,
             false,
             true,
-            ""
+            "",
+            showUpArrow = false
         )
         loadSummary()
     }
@@ -43,6 +45,7 @@ class SummaryViewModel(private val useCase: SummaryUseCase) : ViewModel() {
         if (getCurrentViewState()!!.loading ) {
             _viewState.value = getCurrentViewState()?.copy(empty = false,
                 refresh = false,
+                showUpArrow = false,
                 errorType = ErrorType.NoError,
                 searchCountryPosition = null)
             return
@@ -79,6 +82,12 @@ class SummaryViewModel(private val useCase: SummaryUseCase) : ViewModel() {
             _viewState.value = getCurrentViewState()?.copy(searchCountryPosition = null, errorType = ErrorType.NoCountry)
         }
 
+    }
+
+    fun goUp(recyclerView: () -> Unit) {
+        if (!getCurrentViewState()!!.empty) {
+            recyclerView()
+        }
     }
 
     private fun getSummary() {

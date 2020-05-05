@@ -3,10 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/sv_search"
+        android:id="@+id/ic_search"
         android:icon="@android:drawable/ic_menu_search"
         android:title="@string/search"
-        app:showAsAction="ifRoom|collapseActionView"
         app:actionViewClass="android.widget.SearchView"
-        />
+        app:showAsAction="ifRoom|collapseActionView" />
+
+    <item
+        android:id="@+id/ic_up_arrow"
+        android:icon="@android:drawable/arrow_up_float"
+        android:title="@string/up"
+        app:showAsAction="always" />
+
 </menu>

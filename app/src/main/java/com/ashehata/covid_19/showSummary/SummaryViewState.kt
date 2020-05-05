@@ -14,5 +14,6 @@ data class SummaryViewState(
     var empty: Boolean = false,
     var lastUpdate: String = "",
     var sortType: String = "",
-    var searchCountryPosition: Int? = null
+    var searchCountryPosition: Int? = null,
+    var showUpArrow: Boolean = false
 )

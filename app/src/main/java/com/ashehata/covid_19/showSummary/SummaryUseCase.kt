@@ -36,7 +36,8 @@ class SummaryUseCase(private val repositoryImpl: SummaryRepositoryImpl) {
                              errorType = ErrorType.NoError,
                              loading = false,
                              empty = false,
-                             refresh = false
+                             refresh = false,
+                             showUpArrow = true
                          )
                      )
                  } else {
@@ -46,7 +47,8 @@ class SummaryUseCase(private val repositoryImpl: SummaryRepositoryImpl) {
                              loading = false,
                              empty = true,
                              lastUpdate = "",
-                             refresh = false
+                             refresh = false,
+                             showUpArrow = false
                          )
                      )
                  }
@@ -58,7 +60,8 @@ class SummaryUseCase(private val repositoryImpl: SummaryRepositoryImpl) {
                      loading = false,
                      lastUpdate = "",
                      empty = true,
-                     refresh = false
+                     refresh = false,
+                     showUpArrow = false
                  ))
              }
         }

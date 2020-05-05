@@ -1,9 +1,11 @@
 package com.ashehata.covid_19.showSummary
 
+import android.content.ClipData
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.SearchView;
 import android.widget.Toast
@@ -19,6 +21,7 @@ class SummaryActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     private val viewModel: SummaryViewModel by viewModel()
     private var mAdapter: SummaryAdapter? = null
+    private var upArrow: MenuItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +46,8 @@ class SummaryActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             pb_loading.visibility = if (it.loading) View.VISIBLE else View.GONE
 
             pb_refresh.isRefreshing = it.refresh
+
+            upArrow?.setVisible(it.showUpArrow)
 
             if (it.lastUpdate.isNotEmpty()) {
                 Snackbar.make(parent_view, "Last update: ${it.lastUpdate}",
@@ -87,10 +92,20 @@ class SummaryActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         // Inflate the search view
         menuInflater.inflate(R.menu.search_view, menu)
         // Get inflated item
-        val searchItem = menu?.findItem(R.id.sv_search)
+        upArrow = menu?.findItem(R.id.ic_up_arrow)
+        val searchItem = menu?.findItem(R.id.ic_search)
         val searchView = searchItem?.actionView as SearchView
         searchView.setOnQueryTextListener(this)
         return super.onCreateOptionsMenu(menu)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.ic_up_arrow -> viewModel.goUp{
+                // Call this fun if there is data in the recycler view
+                rv_summary.smoothScrollToPosition(0)
+            }
+        }
+        return true
+    }
 }

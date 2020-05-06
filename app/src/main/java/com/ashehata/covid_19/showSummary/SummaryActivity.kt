@@ -1,21 +1,23 @@
 package com.ashehata.covid_19.showSummary
 
-import android.content.ClipData
-import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.SearchView;
+import android.widget.SearchView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.ashehata.covid_19.R
 import com.ashehata.covid_19.externals.ErrorType
-import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.collaps_layout.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class SummaryActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
@@ -27,13 +29,26 @@ class SummaryActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        editUi()
         updateUi()
         setRefresh()
     }
 
+    private fun editUi() {
+        title = ""
+        setSupportActionBar(toolbar)
+        rv_summary.setHasFixedSize(true)
+        val itemDecorator =
+
+            with(DividerItemDecoration(this, DividerItemDecoration.VERTICAL)) {
+                setDrawable(ContextCompat.getDrawable(this@SummaryActivity,  R.drawable.divider)!!)
+                rv_summary.addItemDecoration(this)
+            }
+    }
+
     private fun setRefresh() {
         // Edit res color
-        pb_refresh.setColorSchemeColors(Color.BLUE, Color.RED, Color.GREEN)
+        //pb_refresh.setColorSchemeColors(Color.BLUE, Color.RED, Color.GREEN)
 
         pb_refresh.setOnRefreshListener {
             viewModel.setRefreshing()
@@ -47,11 +62,24 @@ class SummaryActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
             pb_refresh.isRefreshing = it.refresh
 
+            if (it.global != null) {
+                // Update first progress
+                pb_circular_total_recovered.setProgress(it.global!!.totalRecovered.toDouble(),
+                                                        it.global!!.totalConfirmed.toDouble())
+                tv_percent_recovered.setText("${it.global!!.getRecoveredPercent()} %" )
+
+                // Update second progress
+                pb_circular_total_deaths.setProgress(it.global!!.totalDeaths.toDouble(),
+                                                     it.global!!.totalConfirmed.toDouble())
+                tv_percent_deaths.setText("${it.global!!.getDeathsPercent()} %" )
+
+            }
+
             upArrow?.setVisible(it.showUpArrow)
 
             if (it.lastUpdate.isNotEmpty()) {
                 Snackbar.make(parent_view, "Last update: ${it.lastUpdate}",
-                    BaseTransientBottomBar.LENGTH_LONG).show()
+                    Snackbar.LENGTH_LONG).show()
             }
 
             val message = when (it.errorType) {

@@ -10,4 +10,6 @@
     <string name="message_try_again">Try again</string>
     <string name="message_no_country">No country found</string>
     <string name="up">Up</string>
+    <string name="recovered">Recovered</string>
+    <string name="deaths">Deaths</string>
 </resources>

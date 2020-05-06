@@ -9,4 +9,11 @@ data class Global (
 	@SerializedName("TotalDeaths") val totalDeaths : Int,
 	@SerializedName("NewRecovered") val newRecovered : Int,
 	@SerializedName("TotalRecovered") val totalRecovered : Int
-)
+) {
+	fun getRecoveredPercent(): String =
+		( 100 * (totalRecovered.toFloat() / totalConfirmed) ).toInt().toString()
+
+
+	fun getDeathsPercent(): String =
+		( 100 * (totalDeaths.toFloat() / totalConfirmed) ).toInt().toString()
+}

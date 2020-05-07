@@ -54,11 +54,15 @@ class SummaryViewModel(private val useCase: SummaryUseCase) : ViewModel() {
         _viewState.value = getCurrentViewState()?.copy(empty = false,
             refresh = true,
             errorType = ErrorType.NoError,
+            lastUpdate = "",
             searchCountryPosition = null)
         getSummary()
     }
 
     fun setSearch(text: String?) {
+        text?.apply {
+            trim().toLowerCase(Locale.ROOT)
+        }
         if (text.isNullOrEmpty()) {
             _viewState.value = getCurrentViewState()?.copy(searchCountryPosition = null, errorType = ErrorType.EmptyField)
             return

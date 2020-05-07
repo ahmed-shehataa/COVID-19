@@ -17,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.collaps_layout.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
 
 
 class SummaryActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
@@ -38,12 +39,11 @@ class SummaryActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         title = ""
         setSupportActionBar(toolbar)
         rv_summary.setHasFixedSize(true)
-        val itemDecorator =
 
-            with(DividerItemDecoration(this, DividerItemDecoration.VERTICAL)) {
-                setDrawable(ContextCompat.getDrawable(this@SummaryActivity,  R.drawable.divider)!!)
-                rv_summary.addItemDecoration(this)
-            }
+        with(DividerItemDecoration(this, DividerItemDecoration.VERTICAL)) {
+            setDrawable(ContextCompat.getDrawable(this@SummaryActivity,  R.drawable.divider)!!)
+            rv_summary.addItemDecoration(this)
+        }
     }
 
     private fun setRefresh() {
@@ -60,7 +60,7 @@ class SummaryActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
             pb_loading.visibility = if (it.loading) View.VISIBLE else View.GONE
 
-            pb_refresh.isRefreshing = it.refresh
+            pb_refresh.setRefreshing(it.refresh)
 
             if (it.global != null) {
                 // Update first progress
@@ -108,7 +108,7 @@ class SummaryActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-        viewModel.setSearch(query?.trim()?.toLowerCase())
+        viewModel.setSearch(query)
         return true
     }
 

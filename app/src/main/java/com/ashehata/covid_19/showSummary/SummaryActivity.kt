@@ -1,7 +1,6 @@
 package com.ashehata.covid_19.showSummary
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -12,12 +11,13 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.ashehata.covid_19.R
+import com.ashehata.covid_19.externals.ConnectionStateMonitor
 import com.ashehata.covid_19.externals.ErrorType
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.collaps_layout.*
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.*
 
 
 class SummaryActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
@@ -25,6 +25,7 @@ class SummaryActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private val viewModel: SummaryViewModel by viewModel()
     private var mAdapter: SummaryAdapter? = null
     private var upArrow: MenuItem? = null
+    private val networkState: ConnectionStateMonitor by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,8 +48,6 @@ class SummaryActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun setRefresh() {
-        // Edit res color
-        //pb_refresh.setColorSchemeColors(Color.BLUE, Color.RED, Color.GREEN)
 
         pb_refresh.setOnRefreshListener {
             viewModel.setRefreshing()
@@ -136,4 +135,29 @@ class SummaryActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         }
         return true
     }
+
+    override fun onStart() {
+        super.onStart()
+        networkState.onConnected {
+            runOnUiThread {
+                viewModel.setRefreshing()
+            }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        networkState.unregister()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        networkState.unregister()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        networkState.register()
+    }
+
 }

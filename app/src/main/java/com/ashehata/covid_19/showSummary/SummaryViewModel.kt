@@ -60,10 +60,11 @@ class SummaryViewModel(private val useCase: SummaryUseCase) : ViewModel() {
     }
 
     fun setSearch(text: String?) {
-        text?.apply {
+        val mText = text?.apply {
             trim().toLowerCase(Locale.ROOT)
         }
-        if (text.isNullOrEmpty()) {
+
+        if (mText.isNullOrEmpty()) {
             _viewState.value = getCurrentViewState()?.copy(searchCountryPosition = null, errorType = ErrorType.EmptyField)
             return
         }
@@ -74,7 +75,7 @@ class SummaryViewModel(private val useCase: SummaryUseCase) : ViewModel() {
         }
 
         val searchedItem = getCurrentViewState()?.countries?.find {
-            it.country.toLowerCase(Locale.ENGLISH).contains(text)
+            it.country.toLowerCase(Locale.ENGLISH).contains(mText)
 
         }
 

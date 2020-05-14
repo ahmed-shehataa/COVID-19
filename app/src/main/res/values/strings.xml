@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">COVID-19</string>
+    <string name="total_confirmed">Total Confirmed:</string>
+    <string name="total_deaths">Total Deaths:</string>
+    <string name="total_recovered">Total Recovered:</string>
+    <string name="message_error">An error  occurred</string>
+    <string name="search">Search</string>
+    <string name="search_hint">Enter county name</string>
+    <string name="message_empty_field">empty field</string>
+    <string name="message_try_again">Try again</string>
+    <string name="message_no_country">No country found</string>
+    <string name="up">Up</string>
+    <string name="recovered">Recovered</string>
+    <string name="deaths">Deaths</string>
 </resources>

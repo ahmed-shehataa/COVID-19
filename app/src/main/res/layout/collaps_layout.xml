@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_gravity="bottom"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorWhite"
+        android:text="@string/recovered"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@id/pb_circular_total_recovered"
+        app:layout_constraintEnd_toEndOf="@id/pb_circular_total_recovered"
+        app:layout_constraintBottom_toTopOf="@id/pb_circular_total_recovered"
+        />
+
+    <antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator
+        app:layout_constraintEnd_toStartOf="@id/pb_circular_total_deaths"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/pb_circular_total_recovered"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_gravity="center"
+        app:direction="clockwise"
+        app:dotColor="@color/colorRed"
+        app:dotWidth="12dp"
+        app:drawDot="true"
+        app:fillBackground="true"
+        app:gradientEndColor="@color/colorRed"
+        app:gradientType="sweep"
+        app:progressBackgroundColor="@color/colorGreen"
+        app:progressBackgroundStrokeWidth="4dp"
+        app:progressCap="round"
+        app:progressColor="@color/colorRed"
+        app:progressStrokeWidth="4dp"
+        app:startAngle="270"
+        app:textColor="@color/colorGreen"
+        app:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_percent_recovered"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorWhite"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="@id/pb_circular_total_recovered"
+        app:layout_constraintEnd_toEndOf="@id/pb_circular_total_recovered"
+        app:layout_constraintTop_toTopOf="@id/pb_circular_total_recovered"
+        app:layout_constraintBottom_toBottomOf="@id/pb_circular_total_recovered"
+        tools:text="78%"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorWhite"
+        android:text="@string/deaths"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@id/pb_circular_total_deaths"
+        app:layout_constraintEnd_toEndOf="@id/pb_circular_total_deaths"
+        app:layout_constraintBottom_toTopOf="@id/pb_circular_total_deaths"
+        />
+
+    <antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/pb_circular_total_recovered"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/pb_circular_total_deaths"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_gravity="center"
+        app:direction="clockwise"
+        app:dotColor="@color/colorGreen"
+        app:dotWidth="12dp"
+        app:drawDot="true"
+        app:fillBackground="true"
+        app:gradientEndColor="@color/colorRed"
+        app:gradientType="sweep"
+        app:progressBackgroundColor="@color/colorRed"
+        app:progressBackgroundStrokeWidth="4dp"
+        app:progressCap="round"
+        app:progressColor="@color/colorGreen"
+        app:progressStrokeWidth="4dp"
+        app:startAngle="270"
+        app:textColor="@color/colorRed"
+        app:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_percent_deaths"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorWhite"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="@id/pb_circular_total_deaths"
+        app:layout_constraintEnd_toEndOf="@id/pb_circular_total_deaths"
+        app:layout_constraintTop_toTopOf="@id/pb_circular_total_deaths"
+        app:layout_constraintBottom_toBottomOf="@id/pb_circular_total_deaths"
+        tools:text="78%"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

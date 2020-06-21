@@ -13,6 +13,6 @@ val mModule = module {
     single { CoroutinesCacheMe(get()) }
     single { createService() }
     factory { SummaryRepositoryImpl(get(), get()) }
-    factory { SummaryUseCase(get()) }
+    factory { SummaryUseCase(get<SummaryRepositoryImpl>()) }
     viewModel { SummaryViewModel(get()) }
 }

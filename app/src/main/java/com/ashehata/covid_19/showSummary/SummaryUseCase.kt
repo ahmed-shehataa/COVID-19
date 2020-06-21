@@ -2,12 +2,11 @@ package com.ashehata.covid_19.showSummary
 
 import android.util.Log
 import com.ashehata.covid_19.externals.ErrorType
-import com.ashehata.covid_19.models.SummaryResponse
 import kotlinx.coroutines.*
 import java.lang.Exception
 
 
-class SummaryUseCase(private val repositoryImpl: SummaryRepositoryImpl) {
+class SummaryUseCase(private val repository: SummaryRepository) {
 
     fun getSummary(viewModelScope: CoroutineScope, viewState: SummaryViewState?, updateViewState: (SummaryViewState?) -> Unit): Job{
 
@@ -17,7 +16,7 @@ class SummaryUseCase(private val repositoryImpl: SummaryRepositoryImpl) {
              val result=
                  try {
                      Log.v("childJob", isActive.toString())
-                     repositoryImpl.getSummary()?.await()
+                     repository.getSummary()?.await()
                  } catch (e: Exception) {
                      Log.v("mError", e.message!!)
                      null
